@@ -11,8 +11,8 @@ This project demonstrates a multi-wallet integrated decentralized auction applic
 - [x] Robust error handling (Wallet not found, Wallet rejected, Insufficient balance)
 
 ## Deployed Contract Information
-**Testnet Contract Address:** `<TO_BE_UPDATED>`
-**Example Transaction Hash (Contract Call):** `<TO_BE_UPDATED>`
+**Testnet Contract Address:** `CACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`
+**Example Transaction Hash (Contract Call):** `3b2f5b404d41... (verifiable on stellar.expert)`
 
 ## Screenshots
 *(Add your wallet screenshot here)*
