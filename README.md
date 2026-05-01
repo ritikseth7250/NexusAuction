@@ -1,40 +1,77 @@
-# NexusAuction: Real-time Stellar Soroban dApp
+# NexusAuction
 
-This project demonstrates a multi-wallet integrated decentralized auction application built on the Stellar Soroban smart contract platform.
+NFT Minter - Real-time Auction - Live bidding with Soroban event updates.
 
-## Features Completed
-- [x] Multi-wallet support (StellarWalletsKit)
-- [x] Soroban Contract deployed on Stellar Testnet
-- [x] Contract integration from the React frontend
-- [x] Transaction status tracking (Pending, Success, Failed)
-- [x] Real-time event synchronization (Live bid updates)
-- [x] Robust error handling (Wallet not found, Wallet rejected, Insufficient balance)
+This is a Level 2 Stellar dApp submission with multi-wallet support, a deployed Soroban testnet contract, frontend contract calls, transaction status tracking, and live event synchronization.
 
-## Deployed Contract Information
-**Testnet Contract Address:** `CACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`
-**Example Transaction Hash (Contract Call):** `3b2f5b404d41... (verifiable on stellar.expert)`
+## Level 2 Checklist
 
-## Screenshots
-*(Add your wallet screenshot here)*
+- [x] StellarWalletsKit multi-wallet integration
+- [x] 3 error types handled: wallet not found, wallet rejected, insufficient balance
+- [x] Contract deployed on testnet
+- [x] Contract called from the frontend
+- [x] Reads and writes auction data through the contract
+- [x] Transaction status visible: pending, success, fail
+- [x] Real-time event polling and state synchronization
+- [x] Minimum 2+ meaningful commits
 
-## Setup Instructions
+## Deployed Contract
 
-### Prerequisites
-- Node.js (v18+)
-- Freighter Wallet Browser Extension (configured to Testnet)
-- Minimum 100 XLM on Testnet
+- Testnet contract address: `CBJE2A4DFK7ZI3KPD2BHYPURDXKYP7XNUIVBM6DLWIXSNOTKC37KZQTO`
+- Contract call transaction hash: `5f85ea7c31faeda538ce326b8f3dc7a1c4734e07fae9ec6289f598c6d0f3fcca`
+- Upload WASM transaction hash: `dacc8caf50d8efc3ade88ea7d9411e6dedb80c5e0939bca563d7eee06dd26cf5`
+- Create contract transaction hash: `6d2ae4dbdd2dacc5a2ea28efe8f93f9baa56b0adbdc5d52514b7aaba9bc9a456`
+- Explorer: https://stellar.expert/explorer/testnet/contract/CBJE2A4DFK7ZI3KPD2BHYPURDXKYP7XNUIVBM6DLWIXSNOTKC37KZQTO
 
-### Running the Frontend Locally
-1. Clone the repository.
-2. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
-3. Open `http://localhost:5173` in your browser.
+## Screenshot
 
-## Tech Stack
-- **Smart Contract:** Rust, Soroban SDK
-- **Frontend:** React, Vite, Tailwind CSS, Lucide Icons
-- **Blockchain integration:** Stellar SDK, StellarWalletsKit
+Wallet options available:
+
+![Wallet options](docs/wallet-options.png)
+
+## Setup
+
+Prerequisites:
+
+- Node.js 18+
+- Rust with `wasm32v1-none` target
+- A Stellar testnet wallet such as Freighter, Albedo, Rabet, xBull, LOBSTR, or Hana
+- Testnet XLM for bidding and fees
+
+Install and run the frontend:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Build the frontend:
+
+```bash
+cd frontend
+npm run build
+```
+
+Build the contract WASM:
+
+```bash
+cargo build --target wasm32v1-none --release --manifest-path contract/Cargo.toml
+```
+
+Deploy a fresh testnet contract:
+
+```bash
+cd frontend
+npm run deploy:contract
+```
+
+The app uses the deployed contract above by default. To use another deployment, set:
+
+```bash
+VITE_AUCTION_CONTRACT_ID=YOUR_CONTRACT_ID
+```
+
+## Live Demo
+
+Not published yet. Deploy the `frontend` folder to Vercel, Netlify, or a similar static host and set `VITE_AUCTION_CONTRACT_ID` if you deploy a new contract.

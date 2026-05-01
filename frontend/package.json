@@ -6,10 +6,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "deploy:contract": "node scripts/deploy-testnet.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@creit.tech/stellar-wallets-kit": "1.2.0",
+    "@stellar/stellar-sdk": "^15.0.1",
+    "lucide-react": "^0.470.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"
   },
@@ -18,10 +22,13 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "autoprefixer": "^10.4.20",
     "eslint": "^10.2.1",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
     "vite": "^8.0.10"
   }
 }
