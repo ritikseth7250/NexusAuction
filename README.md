@@ -74,4 +74,10 @@ VITE_AUCTION_CONTRACT_ID=YOUR_CONTRACT_ID
 
 ## Live Demo
 
-Not published yet. Deploy the `frontend` folder to Vercel, Netlify, or a similar static host and set `VITE_AUCTION_CONTRACT_ID` if you deploy a new contract.
+Not published yet. This repository includes `vercel.json`, so Vercel can deploy from the repo root and publish `frontend/dist`.
+
+If configuring Vercel manually, use:
+
+- Install command: `cd frontend && npm install`
+- Build command: `cd frontend && npm run build`
+- Output directory: `frontend/dist`
