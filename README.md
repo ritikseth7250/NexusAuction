@@ -13,7 +13,9 @@ This is a Level 2 Stellar dApp submission with multi-wallet support, a deployed 
 - [x] Reads and writes auction data through the contract
 - [x] Transaction status visible: pending, success, fail
 - [x] Real-time event polling and state synchronization
-- [x] Minimum 2+ meaningful commits
+- [x] Minimum 3+ meaningful commits
+- [x] Test screenshot showing 3+ tests passing
+- [x] 1-minute demo video
 
 ## Deployed Contract
 
@@ -28,6 +30,10 @@ This is a Level 2 Stellar dApp submission with multi-wallet support, a deployed 
 Wallet options available:
 
 ![Wallet options](docs/wallet-options.png)
+
+Test output showing 3+ tests passing:
+
+![Test output showing 4 tests passing](docs/test-output.png)
 
 ## Setup
 
@@ -74,7 +80,11 @@ VITE_AUCTION_CONTRACT_ID=YOUR_CONTRACT_ID
 
 ## Live Demo
 
-Not published yet. This repository includes `vercel.json`, so Vercel can deploy from the repo root and publish `frontend/dist`.
+Live app: https://nexus-auction.vercel.app/
+
+Demo video: https://drive.google.com/file/d/1SDKdj2_L2yVju-SCtBJbqnpY35KNieI-/view?usp=sharing
+
+This repository includes `vercel.json`, so Vercel can deploy from the repo root and publish `frontend/dist`.
 
 If configuring Vercel manually, use:
 

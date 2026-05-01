@@ -121,3 +121,111 @@ impl AuctionContract {
         env.storage().instance().get(&DataKey::ItemName).unwrap()
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use soroban_sdk::{
+        testutils::Address as _,
+        token::{Client as TokenClient, StellarAssetClient},
+    };
+
+    struct AuctionTest {
+        env: Env,
+        client: AuctionContractClient<'static>,
+        contract: Address,
+        token: Address,
+        seller: Address,
+        bidder: Address,
+        second_bidder: Address,
+    }
+
+    fn setup() -> AuctionTest {
+        let env = Env::default();
+        env.mock_all_auths();
+
+        let seller = Address::generate(&env);
+        let bidder = Address::generate(&env);
+        let second_bidder = Address::generate(&env);
+        let admin = Address::generate(&env);
+        let token = env.register_stellar_asset_contract_v2(admin.clone()).address();
+        let asset_client = StellarAssetClient::new(&env, &token);
+        asset_client.mint(&bidder, &1_000);
+        asset_client.mint(&second_bidder, &1_000);
+
+        let contract_id = env.register(AuctionContract, ());
+        let client = AuctionContractClient::new(&env, &contract_id);
+        client.init(
+            &seller,
+            &String::from_str(&env, "Rare Digital Artifact #042"),
+            &token,
+            &100,
+        );
+
+        AuctionTest {
+            env,
+            client,
+            contract: contract_id,
+            token,
+            seller,
+            bidder,
+            second_bidder,
+        }
+    }
+
+    #[test]
+    fn initializes_auction_state() {
+        let test = setup();
+
+        assert_eq!(test.client.get_highest_bid(), 100);
+        assert_eq!(test.client.get_highest_bidder(), None);
+        assert_eq!(test.client.is_active(), true);
+        assert_eq!(
+            test.client.get_item_name(),
+            String::from_str(&test.env, "Rare Digital Artifact #042")
+        );
+    }
+
+    #[test]
+    fn bid_updates_highest_bidder_and_escrows_tokens() {
+        let test = setup();
+        let token_client = TokenClient::new(&test.env, &test.token);
+
+        test.client.bid(&test.bidder, &150);
+
+        assert_eq!(test.client.get_highest_bid(), 150);
+        assert_eq!(test.client.get_highest_bidder(), Some(test.bidder.clone()));
+        assert_eq!(token_client.balance(&test.bidder), 850);
+        assert_eq!(token_client.balance(&test.contract), 150);
+    }
+
+    #[test]
+    fn higher_bid_refunds_previous_bidder() {
+        let test = setup();
+        let token_client = TokenClient::new(&test.env, &test.token);
+
+        test.client.bid(&test.bidder, &150);
+        test.client.bid(&test.second_bidder, &220);
+
+        assert_eq!(test.client.get_highest_bid(), 220);
+        assert_eq!(
+            test.client.get_highest_bidder(),
+            Some(test.second_bidder.clone())
+        );
+        assert_eq!(token_client.balance(&test.bidder), 1_000);
+        assert_eq!(token_client.balance(&test.second_bidder), 780);
+        assert_eq!(token_client.balance(&test.contract), 220);
+    }
+
+    #[test]
+    fn ending_auction_sends_winning_bid_to_seller() {
+        let test = setup();
+        let token_client = TokenClient::new(&test.env, &test.token);
+
+        test.client.bid(&test.bidder, &175);
+        test.client.end_auction();
+
+        assert_eq!(test.client.is_active(), false);
+        assert_eq!(token_client.balance(&test.seller), 175);
+    }
+}
